@@ -12,6 +12,7 @@ public struct iLineChart: View {
     public var data: [Double]
     public var title: String?
     public var subtitle: String?
+    public var timePeriodText: String
     public var floatingPointNumberFormat: String
     public var cursorColor: Color
     public var curvedLines: Bool
@@ -58,13 +59,15 @@ public struct iLineChart: View {
                  dataFont: Font = .system(size: 16, weight: .bold, design: .monospaced),
                  fullScreen: Bool = false,
                  floatingPointNumberFormat: String = "%.1f",
-                 shouldShowHighAndLowValues: Bool = true
+                 shouldShowHighAndLowValues: Bool = true,
+                 timePeriodText: String = ""
                  ) {
         
         
         self.data = data
         self.title = title
         self.subtitle = subtitle
+        self.timePeriodText = timePeriodText
         self.floatingPointNumberFormat = floatingPointNumberFormat
         self.cursorColor = cursorColor
         self.curvedLines = curvedLines
@@ -128,7 +131,8 @@ public struct iLineChart: View {
                       subtitleFont: self.subtitleFont,
                       priceFont: self.priceFont,
                       fullScreen: self.fullScreen,
-                      showHighAndLowValues: self.shouldShowHighAndLowValues)
+                      showHighAndLowValues: self.shouldShowHighAndLowValues,
+                      timePeriodText: self.timePeriodText)
     }
 }
 

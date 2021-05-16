@@ -14,6 +14,7 @@ struct LineChartView: View {
     @ObservedObject var data: ChartData
     public var title: String?
     public var legend: String?
+    public var timePeriodText: String
     public var style: ChartStyle
     public var darkModeStyle: ChartStyle
     var indicatorKnob: Color
@@ -88,7 +89,8 @@ struct LineChartView: View {
          subtitleFont: Font = .system(size: 14, weight: .light, design: .rounded),
          priceFont: Font = .system(size: 16, weight: .bold, design: .monospaced),
          fullScreen: Bool = false,
-         showHighAndLowValues: Bool = true
+         showHighAndLowValues: Bool = true,
+         timePeriodText: String = ""
     ) {
         
         self.rawData = data
@@ -117,6 +119,7 @@ struct LineChartView: View {
         self.priceFont = priceFont
         self.minHeight = minHeight
         self.minWidth = minWidth
+        self.timePeriodText = timePeriodText
         
         self.edgesIgnored = fullScreen ? .all : .bottom
     }
@@ -221,7 +224,6 @@ struct LineChartView: View {
                                     } else if (self.rawData.last != nil) {
                                         if (self.internalRate != nil) {
                                             Text("\(String(format: self.valueSpecifier, self.rawData.last!))")
-                                                .font(self.priceFont)
                                         } else {
                                             Text("\(String(format: self.valueSpecifier, self.rawData.last!))")
                                         }
@@ -232,23 +234,23 @@ struct LineChartView: View {
                                     }
                                 }
                             }
-                            .font(self.priceFont)
-                            .foregroundColor(self.style.numbersColor)
+                            .font(self.subtitleFont)
+                            .foregroundColor(Color.white)
                             
                             HStack {
                                 if ((self.displayChartStats)) {
                                     if (self.showIndicatorDot) {
                                         if (self.internalRate != nil) {
-                                            Text("\(String(format: self.valueSpecifier, self.changeInValue)) (\(self.internalRate!)%)")
+                                            Text("\(String(format: self.valueSpecifier, self.changeInValue)) (\(self.internalRate!)%) \(self.timePeriodText)")
                                         } else {
                                             Text("\(String(format: self.valueSpecifier, self.changeInValue))")
                                         }
                                     } else if (self.rawData.last != nil &&
                                                self.rawData.first != nil) {
                                         if (self.internalRate != nil) {
-                                            Text("\(String(format: self.valueSpecifier, (self.rawData.last! - self.rawData.first!))) (\(self.internalRate!)%)").font(self.priceFont)
+                                            Text("\(String(format: self.valueSpecifier, (self.rawData.last! - self.rawData.first!))) (\(self.internalRate!)%) \(self.timePeriodText)")
                                         } else {
-                                            Text("\(String(format: self.valueSpecifier, (self.rawData.last! - self.rawData.first!)))")
+                                            Text("\(String(format: self.valueSpecifier, (self.rawData.last! - self.rawData.first!)))  \(self.timePeriodText)")
                                         }
                                     } else if (self.internalRate != nil) {
                                         Text("(\(self.internalRate!)%)")
