@@ -241,16 +241,30 @@ struct LineChartView: View {
                                 if ((self.displayChartStats)) {
                                     if (self.showIndicatorDot) {
                                         if (self.internalRate != nil) {
-                                            Text("\(String(format: self.valueSpecifier, self.changeInValue)) (\(self.internalRate!)%) \(self.timePeriodText)")
+                                            Text("\(String(format: self.valueSpecifier, self.changeInValue)) (\(self.internalRate!)%)")
                                         } else {
                                             Text("\(String(format: self.valueSpecifier, self.changeInValue))")
                                         }
                                     } else if (self.rawData.last != nil &&
                                                self.rawData.first != nil) {
                                         if (self.internalRate != nil) {
-                                            Text("\(String(format: self.valueSpecifier, (self.rawData.last! - self.rawData.first!))) (\(self.internalRate!)%) \(self.timePeriodText)")
+                                            HStack {
+                                                Text("\(String(format: self.valueSpecifier, (self.rawData.last! - self.rawData.first!))) (\(self.internalRate!)%)")
+                                                    .font(self.priceFont)
+                                                    .foregroundColor(self.style.numbersColor)
+                                                Text("\(self.timePeriodText)")
+                                                    .font(self.priceFont)
+                                                    .foregroundColor(Color.white)
+                                            }
                                         } else {
-                                            Text("\(String(format: self.valueSpecifier, (self.rawData.last! - self.rawData.first!)))  \(self.timePeriodText)")
+                                            HStack {
+                                                Text("\(String(format: self.valueSpecifier, (self.rawData.last! - self.rawData.first!)))  \(self.timePeriodText)")
+                                                    .font(self.priceFont)
+                                                    .foregroundColor(self.style.numbersColor)
+                                                Text("\(self.timePeriodText)")
+                                                    .font(self.priceFont)
+                                                    .foregroundColor(Color.white)
+                                            }
                                         }
                                     } else if (self.internalRate != nil) {
                                         Text("(\(self.internalRate!)%)")
@@ -260,7 +274,6 @@ struct LineChartView: View {
                                 }
                             }
                             .font(self.priceFont)
-                            .foregroundColor(self.style.numbersColor)
                         }
                         .transition(.opacity)
                         .animation(.easeIn(duration: 0.1))
