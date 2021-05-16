@@ -11,7 +11,7 @@ import iColor
 
 struct LineChartView: View {
     @Environment(\.colorScheme) var colorScheme: ColorScheme
-    @ObservedObject var data:ChartData
+    @ObservedObject var data: ChartData
     public var title: String?
     public var legend: String?
     public var style: ChartStyle
@@ -50,8 +50,16 @@ struct LineChartView: View {
             }
         }
     }
+    
     var frame = CGSize(width: 180, height: 120)
     private var rateValue: Int?
+    
+    private var changeInValue: Double {
+        guard let firstValue = data.onlyPoints().first else {
+            return 0.0
+        }
+        return currentValue - firstValue
+    }
     
     private var minimumValue: Double {
         return self.data.onlyPoints().min() ?? 0
@@ -62,26 +70,26 @@ struct LineChartView: View {
     }
     
     init(data: [Double],
-                title: String? = nil,
-                legend: String? = nil,
-                style: ChartStyle = Styles.lineChartStyleOne,
-                form: CGSize? = ChartForm.extraLarge,
-                rateValue: Int? = 14,
-                dropShadow: Bool? = false,
-                valueSpecifier: String? = "%.1f",
-                cursorColor: Color = Color.neonPink,
-                curvedLines: Bool = true,
-                displayChartStats: Bool = true,
-                minWidth: CGFloat = 0,
-                minHeight: CGFloat = 0,
-                maxWidth: CGFloat = .infinity,
-                maxHeight: CGFloat = .infinity,
-                titleFont: Font = .system(size: 30, weight: .regular, design: .rounded),
-                subtitleFont: Font = .system(size: 14, weight: .light, design: .rounded),
-                priceFont: Font = .system(size: 16, weight: .bold, design: .monospaced),
-                fullScreen: Bool = false,
-                showHighAndLowValues: Bool = true
-                ) {
+         title: String? = nil,
+         legend: String? = nil,
+         style: ChartStyle = Styles.lineChartStyleOne,
+         form: CGSize? = ChartForm.extraLarge,
+         rateValue: Int? = 14,
+         dropShadow: Bool? = false,
+         valueSpecifier: String? = "%.1f",
+         cursorColor: Color = Color.neonPink,
+         curvedLines: Bool = true,
+         displayChartStats: Bool = true,
+         minWidth: CGFloat = 0,
+         minHeight: CGFloat = 0,
+         maxWidth: CGFloat = .infinity,
+         maxHeight: CGFloat = .infinity,
+         titleFont: Font = .system(size: 30, weight: .regular, design: .rounded),
+         subtitleFont: Font = .system(size: 14, weight: .light, design: .rounded),
+         priceFont: Font = .system(size: 16, weight: .bold, design: .monospaced),
+         fullScreen: Bool = false,
+         showHighAndLowValues: Bool = true
+    ) {
         
         self.rawData = data
         self.data = ChartData(points: data)
@@ -89,10 +97,10 @@ struct LineChartView: View {
         self.legend = legend
         self.style = style
         self.darkModeStyle = style.darkModeStyle != nil ? style.darkModeStyle! : Styles.lineViewDarkMode
-//        self.formSize = CGSize(width: width, height: height)
-//        self.width = width
-//        self.height = height
-//        frame = CGSize(width: width, height: height)
+        //        self.formSize = CGSize(width: width, height: height)
+        //        self.width = width
+        //        self.height = height
+        //        frame = CGSize(width: width, height: height)
         // MARK: DEBUG
         self.formSize = CGSize(width: maxWidth, height: maxHeight)
         self.maxWidth = maxWidth
@@ -142,32 +150,78 @@ struct LineChartView: View {
                         .edgesIgnoringSafeArea(self.edgesIgnored)
                 }
                 
+                //                VStack(
+                //                    alignment: .leading,
+                //                    spacing: 20,
+                //                    content: {
+                //                        Text("Bitcoin Price")
+                //                            .foregroundColor(.riverGold)
+                //                            .bold()
+                //
+                //                        if let selectedPrice = self.selectedValue {
+                //                            Text(selectedPrice.formattedString)
+                //                                .foregroundColor(.white)
+                //                                .font(.title)
+                //                                .bold()
+                //                        } else {
+                //                            Text(currentPrice.formattedString)
+                //                                .foregroundColor(.white)
+                //                                .font(.title)
+                //                                .bold()
+                //                        }
+                //
+                //                        let priceChange = currentPrice - previousPrice
+                //                        let percentagePriceChg = (priceChange / previousPrice ) * 100
+                //                        let percentagePriceChgStr = String(format: "(%.1f%%)", percentagePriceChg)
+                //                        let changeColor: Color = priceChange >= 0 ? Color.green : Color.red
+                //                        let changeSign: String = priceChange >= 0 ? "+" : ""
+                //                        let firstText = "\(changeSign)\(priceChange.formattedString) \(percentagePriceChgStr)"
+                //
+                //                        HStack(
+                //                            alignment: .center,
+                //                            spacing: 4,
+                //                            content: {
+                //                                Text(firstText)
+                //                                    .foregroundColor(changeColor)
+                //                                    .font(.subheadline)
+                //                                    .bold()
+                //                                if selectedValue == nil {
+                //                                    Text(currentTimePeriod.priceChangeText)
+                //                                        .foregroundColor(.white)
+                //                                        .font(.subheadline)
+                //                                        .bold()
+                //                                }
+                //                            }
+                //                        )
+                //                    }
+                //                )
+                //                .padding(.top, 12)
+                //                .padding(.bottom, 12)
+                //                .padding(.leading, 20)
+                //                .frame(alignment: .leading)
+                //                .frame(maxWidth: .infinity, alignment: .leading)
+                
                 VStack(alignment: .leading) {
                     if ((self.title != nil) || (self.legend != nil) || (self.displayChartStats)) {
-                        VStack(alignment: .leading, spacing: 0){
+                        VStack(alignment: .leading, spacing: 20){
                             if (self.title != nil) {
                                 Text(self.title!)
                                     .font(self.titleFont)
                                     .foregroundColor(self.colorScheme == .dark ? self.darkModeStyle.textColor : self.style.textColor)
                             }
                             
-                            if (self.legend != nil){
-                                Text(self.legend!)
-                                    .font(self.subtitleFont)
-                                    .foregroundColor(self.colorScheme == .dark ? self.darkModeStyle.legendTextColor :self.style.legendTextColor)
-                            }
-                            
                             HStack {
                                 if ((self.displayChartStats)) {
                                     if (self.showIndicatorDot) {
                                         if (self.internalRate != nil) {
-                                            Text("\(String(format: self.valueSpecifier, self.currentValue)) (\(self.internalRate!)%)")
+                                            Text("\(String(format: self.valueSpecifier, self.currentValue))")
                                         } else {
                                             Text("\(String(format: self.valueSpecifier, self.currentValue))")
                                         }
                                     } else if (self.rawData.last != nil) {
                                         if (self.internalRate != nil) {
-                                            Text("\(String(format: self.valueSpecifier, self.rawData.last!)) (\(self.internalRate!)%)").font(self.priceFont)
+                                            Text("\(String(format: self.valueSpecifier, self.rawData.last!))")
+                                                .font(self.priceFont)
                                         } else {
                                             Text("\(String(format: self.valueSpecifier, self.rawData.last!))")
                                         }
@@ -177,7 +231,34 @@ struct LineChartView: View {
                                         Text("nil")
                                     }
                                 }
-                            }.font(self.priceFont).foregroundColor(self.style.numbersColor).padding(.top)
+                            }
+                            .font(self.priceFont)
+                            .foregroundColor(self.style.numbersColor)
+                            
+                            HStack {
+                                if ((self.displayChartStats)) {
+                                    if (self.showIndicatorDot) {
+                                        if (self.internalRate != nil) {
+                                            Text("\(String(format: self.valueSpecifier, self.changeInValue)) (\(self.internalRate!)%)")
+                                        } else {
+                                            Text("\(String(format: self.valueSpecifier, self.changeInValue))")
+                                        }
+                                    } else if (self.rawData.last != nil &&
+                                               self.rawData.first != nil) {
+                                        if (self.internalRate != nil) {
+                                            Text("\(String(format: self.valueSpecifier, (self.rawData.last! - self.rawData.first!))) (\(self.internalRate!)%)").font(self.priceFont)
+                                        } else {
+                                            Text("\(String(format: self.valueSpecifier, (self.rawData.last! - self.rawData.first!)))")
+                                        }
+                                    } else if (self.internalRate != nil) {
+                                        Text("(\(self.internalRate!)%)")
+                                    } else {
+                                        Text("nil")
+                                    }
+                                }
+                            }
+                            .font(self.priceFont)
+                            .foregroundColor(self.style.numbersColor)
                         }
                         .transition(.opacity)
                         .animation(.easeIn(duration: 0.1))
@@ -185,7 +266,7 @@ struct LineChartView: View {
                         .padding(.top, self.topPadding)
                     }
                     
-
+                    
                     GeometryReader{ geometry in
                         Line(data: self.data,
                              frame: .constant(geometry.frame(in: .local)),
@@ -226,30 +307,30 @@ struct LineChartView: View {
                     
                     
                     // MARK: Frames
-    //                .clipShape(RoundedRectangle(cornerRadius: 0))
+                    //                .clipShape(RoundedRectangle(cornerRadius: 0))
                     
                 }
                 .background(self.style.backgroundColor)
                 .frame(width: (self.maxWidth == .infinity ? g.size.width : self.maxWidth), height: (self.maxHeight == .infinity ? g.size.height : self.maxHeight))
-               
+                
                 
             }
             .gesture(DragGesture(minimumDistance: 0)
-                .onChanged({ value in
-                    self.touchLocation = value.location
-                    self.showIndicatorDot = true
-                    self.showHighAndLowValues = false
-                    // MARK: Frames
-                    self.getClosestDataPoint(toPoint: value.location,
-                                             width:(self.maxWidth == .infinity ? g.size.width : self.maxWidth),
-                                             height:(self.maxHeight == .infinity ? g.size.height : self.maxHeight))
-                })
-                .onEnded({ value in
-                    self.showIndicatorDot = false
-                    self.showHighAndLowValues = true
-                })
-                // MARK: Frames
-                
+                        .onChanged({ value in
+                            self.touchLocation = value.location
+                            self.showIndicatorDot = true
+                            self.showHighAndLowValues = false
+                            // MARK: Frames
+                            self.getClosestDataPoint(toPoint: value.location,
+                                                     width:(self.maxWidth == .infinity ? g.size.width : self.maxWidth),
+                                                     height:(self.maxHeight == .infinity ? g.size.height : self.maxHeight))
+                        })
+                        .onEnded({ value in
+                            self.showIndicatorDot = false
+                            self.showHighAndLowValues = true
+                        })
+                     // MARK: Frames
+                     
             )
         }
     }
