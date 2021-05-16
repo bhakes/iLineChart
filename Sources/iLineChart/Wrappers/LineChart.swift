@@ -89,7 +89,7 @@ public struct iLineChart: View {
             case .dark:
                 self.chartStyle = Styles.darkPrimary
             }
-        } else if chartStyle = chartStyle {
+        } else if let chartStyle = chartStyle {
             self.chartStyle = chartStyle
         } else {
             self.chartStyle = Styles.darkPrimary
