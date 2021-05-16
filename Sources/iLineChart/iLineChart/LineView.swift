@@ -16,11 +16,20 @@ struct LineView: View {
     public var darkModeStyle: ChartStyle
     public var numberFormat:String
     
+    private var minimumValue: Double {
+        return self.data.onlyPoints().min() ?? 0
+    }
+    
+    private var maximumValue: Double {
+        return self.data.onlyPoints().max() ?? 0
+    }
+    
     @Environment(\.colorScheme) var colorScheme: ColorScheme
     @State private var showLegend = false
     @State private var dragLocation:CGPoint = .zero
     @State private var indicatorLocation:CGPoint = .zero
     @State private var closestPoint: CGPoint = .zero
+    
     @State private var minimumPoint: CGPoint?
     @State private var maximumPoint: CGPoint?
     @State private var opacity:Double = 0
@@ -77,18 +86,19 @@ struct LineView: View {
                         }
                         
                         let minimumPoint = self.getMinimumDataPoint(width: geometry.frame(in: .local).size.width-30,
-                                                                     height: 240)
+                                                                    height: geometry.frame(in: .local).size.height - 270)
                         let maximumPoint = self.getMaximumDataPoint(width: geometry.frame(in: .local).size.width-30,
-                                                                     height: 240)
-                        Text("2,233")
+                                                                    height: -24)
+                        
+                        Text("\(self.minimumValue.formattedCurrencyString)")
                             .offset(x: minimumPoint.x,
                                     y: minimumPoint.y)
-                            .foregroundColor(self.style.textColor)
+                            .foregroundColor(Color.white)
                         
-                        Text("3,322")
+                        Text("\(self.maximumValue.formattedCurrencyString)")
                             .offset(x: maximumPoint.x,
-                                    y: maximumPoint.y + 180)
-                            .foregroundColor(self.style.textColor)
+                                    y: maximumPoint.y)
+                            .foregroundColor(Color.white)
                         
                         Line(data: self.data,
                              frame: .constant(CGRect(x: 0, y: 0, width: reader.frame(in: .local).width - 30, height: reader.frame(in: .local).height)),
@@ -173,7 +183,7 @@ struct LineView: View {
                              height: CGFloat) -> CGPoint {
         let points = self.data.onlyPoints()
         let pointsEnumerated = points.enumerated()
-        guard let indexOfMaxPoint = pointsEnumerated.max(by: { $0.element > $1.element })?.offset else {
+        guard let indexOfMaxPoint = pointsEnumerated.max(by: { $0.element < $1.element })?.offset else {
             return .zero
         }
         
@@ -193,7 +203,7 @@ struct LineView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
             
-            LineView(data: [282.502, 284.495, 283.51, 285.019, 285.197, 286.118, 288.737, 288.455, 289.391, 287.691, 285.878, 286.46, 286.252, 284.652, 284.129, 284.188],
+            LineView(data: [333.502, 332.495, 331.51, 285.019, 285.197, 286.118, 288.737, 288.455, 289.391, 287.691, 285.878, 286.46, 286.252, 284.652, 284.129, 284.188],
                      style: Styles.lineChartStyleOne)
             
         }
