@@ -12,14 +12,19 @@ import iColor
 
 public struct GradientColor {
     public let start: Color
+    public let middle: Color?
     public let end: Color
     
-    public init(start: Color, end: Color) {
+    public init(start: Color, middle: Color? = nil, end: Color) {
         self.start = start
+        self.middle = middle
         self.end = end
     }
     
     public func getGradient() -> Gradient {
+        if let middle = self.middle {
+            return Gradient(colors: [start, middle, end])
+        }
         return Gradient(colors: [start, end])
     }
 }
