@@ -26,6 +26,8 @@ public struct iLineChart: View {
     public var priceFont: Font
     public var fullScreen: Bool
     
+    public var shouldShowHighAndLowValues: Bool
+    
     private var chartStyle: ChartStyle = Styles.lineChartStyleOne
     private var edgesIgnored: Edge.Set
     static var defaultChartStyle: ChartStyle {
@@ -55,7 +57,8 @@ public struct iLineChart: View {
                  subtitleFont: Font = .system(size: 14, weight: .light, design: .rounded),
                  dataFont: Font = .system(size: 16, weight: .bold, design: .monospaced),
                  fullScreen: Bool = false,
-                 floatingPointNumberFormat: String = "%.1f"
+                 floatingPointNumberFormat: String = "%.1f",
+                 shouldShowHighAndLowValues: Bool = false
                  ) {
         
         
@@ -103,6 +106,8 @@ public struct iLineChart: View {
         self.chartStyle.textColor = (titleColor != nil) ? titleColor! : self.chartStyle.textColor
         self.chartStyle.legendTextColor = (subtitleColor != nil) ? subtitleColor! : self.chartStyle.legendTextColor
         self.chartStyle.numbersColor = (numberColor != nil) ? numberColor! : self.chartStyle.numbersColor
+        
+        self.shouldShowHighAndLowValues = shouldShowHighAndLowValues
     }
     
     

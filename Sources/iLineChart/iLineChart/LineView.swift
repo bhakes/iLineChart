@@ -35,7 +35,7 @@ struct LineView: View {
     @State private var opacity:Double = 0
     @State private var currentDataNumber: Double = 0
     @State private var hideHorizontalLines: Bool = false
-    @State private var showHighAndLowValues: Bool = false
+    @State private var showHighAndLowValues: Bool = true
     private var defaultHorizontalLines: Bool = false
     
     public init(data: [Double],
@@ -44,7 +44,7 @@ struct LineView: View {
                 style: ChartStyle = Styles.lineChartStyleOne,
                 numberFormat: String? = "%.1f",
                 hideHorizontalLines: Bool = false,
-                showHighAndLowValues: Bool = false) {
+                showHighAndLowValues: Bool = true) {
         self.defaultHorizontalLines = hideHorizontalLines
         self._hideHorizontalLines = State(initialValue: hideHorizontalLines)
         self.data = ChartData(points: data)
@@ -90,15 +90,17 @@ struct LineView: View {
                         let maximumPoint = self.getMaximumDataPoint(width: geometry.frame(in: .local).size.width-30,
                                                                     height: -24)
                         
-                        Text("\(self.minimumValue.formattedCurrencyString)")
-                            .offset(x: minimumPoint.x,
-                                    y: minimumPoint.y)
-                            .foregroundColor(Color.white)
-                        
-                        Text("\(self.maximumValue.formattedCurrencyString)")
-                            .offset(x: maximumPoint.x,
-                                    y: maximumPoint.y)
-                            .foregroundColor(Color.white)
+                        if showHighAndLowValues {
+                            Text("\(self.minimumValue.formattedCurrencyString)")
+                                .offset(x: minimumPoint.x,
+                                        y: minimumPoint.y)
+                                .foregroundColor(Color.red)
+                            
+                            Text("\(self.maximumValue.formattedCurrencyString)")
+                                .offset(x: maximumPoint.x,
+                                        y: maximumPoint.y)
+                                .foregroundColor(Color.red)
+                        }
                         
                         Line(data: self.data,
                              frame: .constant(CGRect(x: 0, y: 0, width: reader.frame(in: .local).width - 30, height: reader.frame(in: .local).height)),
