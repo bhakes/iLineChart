@@ -344,7 +344,7 @@ extension Double {
     var formattedCurrencyString: String {
         let numberformatter = NumberFormatter()
         numberformatter.numberStyle = .currency
-        
+        numberformatter.maximumFractionDigits = 0
         let nsNumber = NSNumber(value: self)
         let numberString = numberformatter.string(from: nsNumber) ?? "Error"
         return numberString
