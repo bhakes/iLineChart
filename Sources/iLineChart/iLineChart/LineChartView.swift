@@ -198,10 +198,7 @@ struct LineChartView: View {
                              indicatorKnob: self.indicatorKnob,
                              curvedLines: self.curvedLines
                         )
-                    }
-                    .frame(minWidth: self.minWidth, maxWidth: self.maxWidth, minHeight: self.minHeight, maxHeight: self.maxHeight)
-                    .padding(.bottom)
-                    .onAppear {
+                        
                         if showHighAndLowValues {
                             let minimumPoint = self.getMinimumDataPoint(width: geometry.frame(in: .local).size.width - 60,
                                                                         height: (geometry.frame(in: .local).size.height * 2))
@@ -220,6 +217,11 @@ struct LineChartView: View {
                                 .foregroundColor(Color.white)
                                 .font(.bold(.title3)())
                         }
+                    }
+                    .frame(minWidth: self.minWidth, maxWidth: self.maxWidth, minHeight: self.minHeight, maxHeight: self.maxHeight)
+                    .padding(.bottom)
+                    .onAppear {
+                        
                     }
                     
                     
