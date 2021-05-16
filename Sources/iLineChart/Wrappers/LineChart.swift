@@ -28,17 +28,16 @@ public struct iLineChart: View {
     
     private var chartStyle: ChartStyle = Styles.lineChartStyleOne
     private var edgesIgnored: Edge.Set
+    static var defaultChartStyle: ChartStyle {
+        return Styles.lineChartStyleOne
+    }
     
     
     public init (data: [Double],
                  title: String? = nil,
                  subtitle: String? = nil,
                  style: LineChartStyle? = nil,
-                 chartStyle: ChartStyle = .init(accentColor: .black,
-                                                secondGradientColor: .black,
-                                                textColor: .black,
-                                                legendTextColor: .black,
-                                                dropShadowColor: .black),
+                 chartStyle: ChartStyle,
                  lineGradient: GradientColor? = nil,
                  chartBackgroundGradient: GradientColor? = nil,
                  canvasBackgroundColor: Color? = nil,
@@ -93,10 +92,8 @@ public struct iLineChart: View {
             case .dark:
                 self.chartStyle = Styles.darkPrimary
             }
-        } else if let chartStyle = chartStyle {
-            self.chartStyle = chartStyle
         } else {
-            self.chartStyle = Styles.darkPrimary
+            self.chartStyle = chartStyle
         }
         
         
