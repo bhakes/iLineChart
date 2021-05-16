@@ -200,22 +200,24 @@ struct LineChartView: View {
                              curvedLines: self.curvedLines
                         )
                         
-                        let minimumPoint = self.getMinimumDataPoint(width: geometry.frame(in: .local).size.width-20,
-                                                                    height: (geometry.frame(in: .local).size.height * 2) + 10)
-                        let maximumPoint = self.getMaximumDataPoint(width: geometry.frame(in: .local).size.width-20,
-                                                                    height: 28)
-                        
-                        Text("\(self.minimumValue.formattedCurrencyString)")
-                            .offset(x: minimumPoint.x,
-                                    y: minimumPoint.y)
-                            .foregroundColor(Color.white)
-                            .font(.bold(.title3)())
-                        
-                        Text("\(self.maximumValue.formattedCurrencyString)")
-                            .offset(x: maximumPoint.x,
-                                    y: maximumPoint.y)
-                            .foregroundColor(Color.white)
-                            .font(.bold(.title3)())
+                        if showHighAndLowValues {
+                            let minimumPoint = self.getMinimumDataPoint(width: geometry.frame(in: .local).size.width - 60,
+                                                                        height: (geometry.frame(in: .local).size.height * 2))
+                            let maximumPoint = self.getMaximumDataPoint(width: geometry.frame(in: .local).size.width - 60,
+                                                                        height: 20)
+                            
+                            Text("\(self.minimumValue.formattedCurrencyString)")
+                                .offset(x: minimumPoint.x,
+                                        y: minimumPoint.y)
+                                .foregroundColor(Color.white)
+                                .font(.bold(.title3)())
+                            
+                            Text("\(self.maximumValue.formattedCurrencyString)")
+                                .offset(x: maximumPoint.x,
+                                        y: maximumPoint.y)
+                                .foregroundColor(Color.white)
+                                .font(.bold(.title3)())
+                        }
                     }
                     .frame(minWidth: self.minWidth, maxWidth: self.maxWidth, minHeight: self.minHeight, maxHeight: self.maxHeight)
                     .padding(.bottom)
@@ -234,6 +236,7 @@ struct LineChartView: View {
                 .onChanged({ value in
                     self.touchLocation = value.location
                     self.showIndicatorDot = true
+                    self.showHighAndLowValues = false
                     // MARK: Frames
                     self.getClosestDataPoint(toPoint: value.location,
                                              width:(self.maxWidth == .infinity ? g.size.width : self.maxWidth),
@@ -241,6 +244,7 @@ struct LineChartView: View {
                 })
                 .onEnded({ value in
                     self.showIndicatorDot = false
+                    self.showHighAndLowValues = true
                 })
                 // MARK: Frames
                 
