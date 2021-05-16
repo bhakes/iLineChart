@@ -242,8 +242,12 @@ struct LineChartView: View {
                                     if (self.showIndicatorDot) {
                                         if (self.internalRate != nil) {
                                             Text("\(String(format: self.valueSpecifier, self.changeInValue)) (\(self.internalRate!)%)")
+                                                .font(self.priceFont)
+                                                .foregroundColor(self.style.numbersColor)
                                         } else {
                                             Text("\(String(format: self.valueSpecifier, self.changeInValue))")
+                                                .font(self.priceFont)
+                                                .foregroundColor(self.style.numbersColor)
                                         }
                                     } else if (self.rawData.last != nil &&
                                                self.rawData.first != nil) {
