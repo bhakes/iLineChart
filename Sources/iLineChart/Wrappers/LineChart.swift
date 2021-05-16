@@ -33,7 +33,8 @@ public struct iLineChart: View {
     public init (data: [Double],
                  title: String? = nil,
                  subtitle: String? = nil,
-                 style: LineChartStyle = .primary,
+                 style: LineChartStyle?,
+                 chartSytle: ChartStyle?,
                  lineGradient: GradientColor? = nil,
                  chartBackgroundGradient: GradientColor? = nil,
                  canvasBackgroundColor: Color? = nil,
@@ -77,16 +78,23 @@ public struct iLineChart: View {
             self.edgesIgnored = .bottom
         }
         
-        switch style {
-        case .primary:
-            self.chartStyle = Styles.lineChartStyleTwo
-        case .secondary:
-            self.chartStyle = Styles.lineChartStyleThree
-        case .tertiary:
-            self.chartStyle = Styles.lineChartStyleFour
-        case .dark:
+        if let style = style {
+            switch style {
+            case .primary:
+                self.chartStyle = Styles.lineChartStyleTwo
+            case .secondary:
+                self.chartStyle = Styles.lineChartStyleThree
+            case .tertiary:
+                self.chartStyle = Styles.lineChartStyleFour
+            case .dark:
+                self.chartStyle = Styles.darkPrimary
+            }
+        } else if chartStyle = chartStyle {
+            self.chartStyle = chartStyle
+        } else {
             self.chartStyle = Styles.darkPrimary
         }
+        
         
         self.chartStyle.backgroundColor = (canvasBackgroundColor != nil) ? canvasBackgroundColor! : self.chartStyle.backgroundColor
         self.chartStyle.backgroundGradient = (chartBackgroundGradient != nil) ? chartBackgroundGradient! : self.chartStyle.backgroundGradient
@@ -98,8 +106,22 @@ public struct iLineChart: View {
     
     
     public var body: some View {
-        LineChartView(data: self.data, title: self.title, legend: self.subtitle, style: self.chartStyle,  valueSpecifier: self.floatingPointNumberFormat, cursorColor: self.cursorColor, curvedLines: self.curvedLines, displayChartStats: self.displayChartStats, minWidth: self.minWidth, minHeight: self.minHeight, maxWidth: self.maxWidth, maxHeight: maxHeight, titleFont: self.titleFont, subtitleFont: self.subtitleFont, priceFont: self.priceFont, fullScreen: self.fullScreen)
-            
+        LineChartView(data: self.data,
+                      title: self.title,
+                      legend: self.subtitle,
+                      style: self.chartStyle,
+                      valueSpecifier: self.floatingPointNumberFormat,
+                      cursorColor: self.cursorColor,
+                      curvedLines: self.curvedLines,
+                      displayChartStats: self.displayChartStats,
+                      minWidth: self.minWidth,
+                      minHeight: self.minHeight,
+                      maxWidth: self.maxWidth,
+                      maxHeight: maxHeight,
+                      titleFont: self.titleFont,
+                      subtitleFont: self.subtitleFont,
+                      priceFont: self.priceFont,
+                      fullScreen: self.fullScreen)
     }
 }
 
