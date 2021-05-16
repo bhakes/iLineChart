@@ -38,6 +38,9 @@ struct LineChartView: View {
     private var topPadding: CGFloat = 0
     private var edgesIgnored: Edge.Set
     
+    private var showHighAndLowValues: Bool
+    @State private var minimumPoint: CGPoint?
+    @State private var maximumPoint: CGPoint?
     @State private var touchLocation:CGPoint = .zero
     @State private var showIndicatorDot: Bool = false
     @State private var currentValue: Double = 2 {
@@ -49,6 +52,14 @@ struct LineChartView: View {
     }
     var frame = CGSize(width: 180, height: 120)
     private var rateValue: Int?
+    
+    private var minimumValue: Double {
+        return self.data.onlyPoints().min() ?? 0
+    }
+    
+    private var maximumValue: Double {
+        return self.data.onlyPoints().max() ?? 0
+    }
     
     init(data: [Double],
                 title: String? = nil,
@@ -68,7 +79,8 @@ struct LineChartView: View {
                 titleFont: Font = .system(size: 30, weight: .regular, design: .rounded),
                 subtitleFont: Font = .system(size: 14, weight: .light, design: .rounded),
                 priceFont: Font = .system(size: 16, weight: .bold, design: .monospaced),
-                fullScreen: Bool = false
+                fullScreen: Bool = false,
+                showHighAndLowValues: Bool = true
                 ) {
         
         self.rawData = data
@@ -97,6 +109,7 @@ struct LineChartView: View {
         self.priceFont = priceFont
         self.minHeight = minHeight
         self.minWidth = minWidth
+        self.showHighAndLowValues = showHighAndLowValues
         
         self.edgesIgnored = fullScreen ? .all : .bottom
     }
@@ -130,6 +143,20 @@ struct LineChartView: View {
                         .edgesIgnoringSafeArea(self.edgesIgnored)
                 }
                 
+                let minimumPoint = self.getMinimumDataPoint(width: g.frame(in: .local).size.width-30,
+                                                            height: g.frame(in: .local).size.height - 270)
+                let maximumPoint = self.getMaximumDataPoint(width: g.frame(in: .local).size.width-30,
+                                                            height: -24)
+                
+                Text("\(self.minimumValue.formattedCurrencyString)")
+                    .offset(x: minimumPoint.x,
+                            y: minimumPoint.y)
+                    .foregroundColor(Color.red)
+                
+                Text("\(self.maximumValue.formattedCurrencyString)")
+                    .offset(x: maximumPoint.x,
+                            y: maximumPoint.y)
+                    .foregroundColor(Color.red)
                 
                 VStack(alignment: .leading) {
                     if ((self.title != nil) || (self.legend != nil) || (self.displayChartStats)) {
@@ -231,6 +258,45 @@ struct LineChartView: View {
         }
         return .zero
     }
+    
+    func getMinimumDataPoint(width:CGFloat,
+                             height: CGFloat) -> CGPoint {
+        let points = self.data.onlyPoints()
+        let pointsEnumerated = points.enumerated()
+        guard let indexOfMinPoint = pointsEnumerated.min(by: { $0.element < $1.element })?.offset else {
+            return .zero
+        }
+        
+        let stepWidth: CGFloat = width / CGFloat(points.count-1)
+        let stepHeight: CGFloat = height / CGFloat(points.max()! + points.min()!)
+        
+        if (indexOfMinPoint >= 0 && indexOfMinPoint < points.count){
+            self.currentValue = points[indexOfMinPoint]
+            return CGPoint(x: CGFloat(indexOfMinPoint)*stepWidth,
+                           y: CGFloat(points[indexOfMinPoint])*stepHeight)
+        }
+        return .zero
+    }
+    
+    func getMaximumDataPoint(width:CGFloat,
+                             height: CGFloat) -> CGPoint {
+        let points = self.data.onlyPoints()
+        let pointsEnumerated = points.enumerated()
+        guard let indexOfMaxPoint = pointsEnumerated.max(by: { $0.element < $1.element })?.offset else {
+            return .zero
+        }
+        
+        let stepWidth: CGFloat = width / CGFloat(points.count-1)
+        let stepHeight: CGFloat = height / CGFloat(points.max()! + points.min()!)
+        
+        if (indexOfMaxPoint >= 0 && indexOfMaxPoint < points.count){
+            self.currentValue = points[indexOfMaxPoint]
+            return CGPoint(x: CGFloat(indexOfMaxPoint)*stepWidth,
+                           y: CGFloat(points[indexOfMaxPoint])*stepHeight)
+        }
+        return .zero
+    }
+    
 }
 
 struct WidgetView_Previews: PreviewProvider {
