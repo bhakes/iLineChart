@@ -198,7 +198,10 @@ struct LineChartView: View {
                              indicatorKnob: self.indicatorKnob,
                              curvedLines: self.curvedLines
                         )
-                        
+                    }
+                    .frame(minWidth: self.minWidth, maxWidth: self.maxWidth, minHeight: self.minHeight, maxHeight: self.maxHeight)
+                    .padding(.bottom)
+                    .onAppear {
                         if showHighAndLowValues {
                             let minimumPoint = self.getMinimumDataPoint(width: geometry.frame(in: .local).size.width - 60,
                                                                         height: (geometry.frame(in: .local).size.height * 2))
@@ -218,8 +221,6 @@ struct LineChartView: View {
                                 .font(.bold(.title3)())
                         }
                     }
-                    .frame(minWidth: self.minWidth, maxWidth: self.maxWidth, minHeight: self.minHeight, maxHeight: self.maxHeight)
-                    .padding(.bottom)
                     
                     
                     // MARK: Frames
@@ -276,7 +277,6 @@ struct LineChartView: View {
         let stepHeight: CGFloat = height / CGFloat(points.max()! + points.min()!)
         
         if (indexOfMinPoint >= 0 && indexOfMinPoint < points.count){
-            self.currentValue = points[indexOfMinPoint]
             return CGPoint(x: CGFloat(indexOfMinPoint)*stepWidth,
                            y: CGFloat(points[indexOfMinPoint])*stepHeight)
         }
@@ -295,7 +295,6 @@ struct LineChartView: View {
         let stepHeight: CGFloat = height / CGFloat(points.max()! + points.min()!)
         
         if (indexOfMaxPoint >= 0 && indexOfMaxPoint < points.count){
-            self.currentValue = points[indexOfMaxPoint]
             return CGPoint(x: CGFloat(indexOfMaxPoint)*stepWidth,
                            y: CGFloat(points[indexOfMaxPoint])*stepHeight)
         }
