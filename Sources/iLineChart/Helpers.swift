@@ -23,7 +23,9 @@ public struct GradientColor {
     
     public func getGradient() -> Gradient {
         if let middle = self.middle {
-            return Gradient(colors: [start, middle, end])
+            return Gradient(stops: [Gradient.Stop(color: start, location: 0),
+                                    Gradient.Stop(color: middle, location: 0.5),
+                                    Gradient.Stop(color: end, location: 1)])
         }
         return Gradient(colors: [start, end])
     }
