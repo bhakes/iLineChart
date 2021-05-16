@@ -200,20 +200,22 @@ struct LineChartView: View {
                              curvedLines: self.curvedLines
                         )
                         
-                        let minimumPoint = self.getMinimumDataPoint(width: geometry.frame(in: .local).size.width-60,
-                                                                    height: geometry.frame(in: .local).size.height)
-                        let maximumPoint = self.getMaximumDataPoint(width: geometry.frame(in: .local).size.width-60,
-                                                                    height: -24)
+                        let minimumPoint = self.getMinimumDataPoint(width: geometry.frame(in: .local).size.width-80,
+                                                                    height: (geometry.frame(in: .local).size.height * 2))
+                        let maximumPoint = self.getMaximumDataPoint(width: geometry.frame(in: .local).size.width-80,
+                                                                    height: 40)
                         
                         Text("\(self.minimumValue.formattedCurrencyString)")
                             .offset(x: minimumPoint.x,
                                     y: minimumPoint.y)
-                            .foregroundColor(Color.red)
+                            .foregroundColor(Color.white)
+                            .font(.bold(.title3)())
                         
                         Text("\(self.maximumValue.formattedCurrencyString)")
                             .offset(x: maximumPoint.x,
                                     y: maximumPoint.y)
-                            .foregroundColor(Color.red)
+                            .foregroundColor(Color.white)
+                            .font(.bold(.title3)())
                     }
                     .frame(minWidth: self.minWidth, maxWidth: self.maxWidth, minHeight: self.minHeight, maxHeight: self.maxHeight)
                     .padding(.bottom)
@@ -304,9 +306,6 @@ struct WidgetView_Previews: PreviewProvider {
         Group {
             LineChartView(data: [8,23,54,32,12,37,7,23,43], title: "Line chart", legend: "Basic")
                 .environment(\.colorScheme, .light)
-            
-            LineChartView(data: [282.502, 284.495, 283.51, 285.019, 285.197, 286.118, 288.737, 288.455, 289.391, 287.691, 285.878, 286.46, 286.252, 284.652, 284.129, 284.188], title: "Line chart", legend: "Basic")
-            .environment(\.colorScheme, .light)
         }
     }
 }
