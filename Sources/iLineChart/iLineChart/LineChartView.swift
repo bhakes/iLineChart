@@ -200,9 +200,9 @@ struct LineChartView: View {
                              curvedLines: self.curvedLines
                         )
                         
-                        let minimumPoint = self.getMinimumDataPoint(width: geometry.frame(in: .local).size.width-30,
-                                                                    height: geometry.frame(in: .local).size.height - 270)
-                        let maximumPoint = self.getMaximumDataPoint(width: geometry.frame(in: .local).size.width-30,
+                        let minimumPoint = self.getMinimumDataPoint(width: geometry.frame(in: .local).size.width-60,
+                                                                    height: geometry.frame(in: .local).size.height)
+                        let maximumPoint = self.getMaximumDataPoint(width: geometry.frame(in: .local).size.width-60,
                                                                     height: -24)
                         
                         Text("\(self.minimumValue.formattedCurrencyString)")
