@@ -34,7 +34,7 @@ public struct iLineChart: View {
                  title: String? = nil,
                  subtitle: String? = nil,
                  style: LineChartStyle?,
-                 chartSytle: ChartStyle?,
+                 chartStyle: ChartStyle?,
                  lineGradient: GradientColor? = nil,
                  chartBackgroundGradient: GradientColor? = nil,
                  canvasBackgroundColor: Color? = nil,
