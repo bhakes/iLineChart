@@ -38,7 +38,7 @@ struct LineChartView: View {
     private var topPadding: CGFloat = 0
     private var edgesIgnored: Edge.Set
     
-    @State private var showHighAndLowValues: Bool
+    @State private var showHighAndLowValues: Bool = true
     @State private var minimumPoint: CGPoint?
     @State private var maximumPoint: CGPoint?
     @State private var touchLocation:CGPoint = .zero
@@ -109,7 +109,6 @@ struct LineChartView: View {
         self.priceFont = priceFont
         self.minHeight = minHeight
         self.minWidth = minWidth
-        self.showHighAndLowValues = showHighAndLowValues
         
         self.edgesIgnored = fullScreen ? .all : .bottom
     }
