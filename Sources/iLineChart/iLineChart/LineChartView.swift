@@ -143,21 +143,6 @@ struct LineChartView: View {
                         .edgesIgnoringSafeArea(self.edgesIgnored)
                 }
                 
-                let minimumPoint = self.getMinimumDataPoint(width: g.frame(in: .local).size.width-30,
-                                                            height: g.frame(in: .local).size.height - 270)
-                let maximumPoint = self.getMaximumDataPoint(width: g.frame(in: .local).size.width-30,
-                                                            height: -24)
-                
-                Text("\(self.minimumValue.formattedCurrencyString)")
-                    .offset(x: minimumPoint.x,
-                            y: minimumPoint.y)
-                    .foregroundColor(Color.red)
-                
-                Text("\(self.maximumValue.formattedCurrencyString)")
-                    .offset(x: maximumPoint.x,
-                            y: maximumPoint.y)
-                    .foregroundColor(Color.red)
-                
                 VStack(alignment: .leading) {
                     if ((self.title != nil) || (self.legend != nil) || (self.displayChartStats)) {
                         VStack(alignment: .leading, spacing: 0){
@@ -214,6 +199,21 @@ struct LineChartView: View {
                              indicatorKnob: self.indicatorKnob,
                              curvedLines: self.curvedLines
                         )
+                        
+                        let minimumPoint = self.getMinimumDataPoint(width: geometry.frame(in: .local).size.width-30,
+                                                                    height: geometry.frame(in: .local).size.height - 270)
+                        let maximumPoint = self.getMaximumDataPoint(width: geometry.frame(in: .local).size.width-30,
+                                                                    height: -24)
+                        
+                        Text("\(self.minimumValue.formattedCurrencyString)")
+                            .offset(x: minimumPoint.x,
+                                    y: minimumPoint.y)
+                            .foregroundColor(Color.red)
+                        
+                        Text("\(self.maximumValue.formattedCurrencyString)")
+                            .offset(x: maximumPoint.x,
+                                    y: maximumPoint.y)
+                            .foregroundColor(Color.red)
                     }
                     .frame(minWidth: self.minWidth, maxWidth: self.maxWidth, minHeight: self.minHeight, maxHeight: self.maxHeight)
                     .padding(.bottom)

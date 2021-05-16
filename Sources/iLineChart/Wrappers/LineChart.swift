@@ -58,7 +58,7 @@ public struct iLineChart: View {
                  dataFont: Font = .system(size: 16, weight: .bold, design: .monospaced),
                  fullScreen: Bool = false,
                  floatingPointNumberFormat: String = "%.1f",
-                 shouldShowHighAndLowValues: Bool = false
+                 shouldShowHighAndLowValues: Bool = true
                  ) {
         
         
@@ -127,7 +127,8 @@ public struct iLineChart: View {
                       titleFont: self.titleFont,
                       subtitleFont: self.subtitleFont,
                       priceFont: self.priceFont,
-                      fullScreen: self.fullScreen)
+                      fullScreen: self.fullScreen,
+                      showHighAndLowValues: self.shouldShowHighAndLowValues)
     }
 }
 
