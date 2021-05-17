@@ -139,13 +139,13 @@ struct LineChartView: View {
         
         if !self.showIndicatorDot {
             if self.rawData.count > 1 {
-                return Int(((self.rawData.last!/self.rawData.first!) - 1)*100)
+                return Int(((self.rawData.last!/self.rawData.first!) - 1) * 100)
             } else {
                 return nil
             }
         } else {
             if self.rawData.count > 1 {
-                return Int(((self.currentValue/self.rawData.first!) - 1)*100)
+                return Int(((self.currentValue/self.rawData.first!) - 1) * 100)
             } else {
                 return nil
             }
@@ -221,13 +221,14 @@ struct LineChartView: View {
                                     .foregroundColor(self.colorScheme == .dark ? self.darkModeStyle.textColor : self.style.textColor)
                             }
                             
+                            // Current Value
                             HStack {
                                 if ((self.displayChartStats)) {
                                     if (self.showIndicatorDot) {
                                         if (self.internalRate != nil) {
-                                            Text("\(String(format: self.valueSpecifier, self.currentValue))")
+                                            Text("\(String(format: self.valueSpecifier, self.currentValue.formattedCurrencyString))")
                                         } else {
-                                            Text("\(String(format: self.valueSpecifier, self.currentValue))")
+                                            Text("\(String(format: self.valueSpecifier, self.currentValue.formattedCurrencyString))")
                                         }
                                     } else if (self.rawData.last != nil) {
                                         if (self.internalRate != nil) {
@@ -245,15 +246,16 @@ struct LineChartView: View {
                             .font(self.subtitleFont)
                             .foregroundColor(Color.white)
                             
+                            // Value Change
                             HStack {
                                 if ((self.displayChartStats)) {
                                     if (self.showIndicatorDot) {
                                         if (self.internalRate != nil) {
-                                            Text("\(String(format: self.valueSpecifier, self.changeInValue)) (\(self.internalRate!)%)")
+                                            Text("\(self.changeInValue.formattedCurrencyString) (\(self.internalRate!)%)")
                                                 .font(self.priceFont)
                                                 .foregroundColor(self.priceColor)
                                         } else {
-                                            Text("\(String(format: self.valueSpecifier, self.changeInValue))")
+                                            Text("\(self.changeInValue.formattedCurrencyString)")
                                                 .font(self.priceFont)
                                                 .foregroundColor(self.priceColor)
                                         }
@@ -261,7 +263,7 @@ struct LineChartView: View {
                                                self.rawData.first != nil) {
                                         if (self.internalRate != nil) {
                                             HStack {
-                                                Text("\(String(format: self.valueSpecifier, (self.rawData.last! - self.rawData.first!))) (\(self.internalRate!)%)")
+                                                Text("\(self.rawData.last! - self.rawData.first!)) (\(self.internalRate!)%)")
                                                     .font(self.priceFont)
                                                     .foregroundColor(self.priceColor)
                                                 Text("\(self.timePeriodText)")
@@ -270,7 +272,7 @@ struct LineChartView: View {
                                             }
                                         } else {
                                             HStack {
-                                                Text("\(String(format: self.valueSpecifier, (self.rawData.last! - self.rawData.first!)))  \(self.timePeriodText)")
+                                                Text("\(self.rawData.last! - self.rawData.first!))  \(self.timePeriodText)")
                                                     .font(self.priceFont)
                                                     .foregroundColor(self.priceColor)
                                                 Text("\(self.timePeriodText)")
