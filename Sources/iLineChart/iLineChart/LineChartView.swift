@@ -47,7 +47,7 @@ struct LineChartView: View {
     @State private var currentValue: Double = 2 {
         didSet{
             if (oldValue != self.currentValue && showIndicatorDot) {
-                HapticFeedback.playSelection()
+//                HapticFeedback.playSelection()
             }
         }
     }
@@ -161,57 +161,6 @@ struct LineChartView: View {
                         .edgesIgnoringSafeArea(self.edgesIgnored)
                 }
                 
-                //                VStack(
-                //                    alignment: .leading,
-                //                    spacing: 20,
-                //                    content: {
-                //                        Text("Bitcoin Price")
-                //                            .foregroundColor(.riverGold)
-                //                            .bold()
-                //
-                //                        if let selectedPrice = self.selectedValue {
-                //                            Text(selectedPrice.formattedString)
-                //                                .foregroundColor(.white)
-                //                                .font(.title)
-                //                                .bold()
-                //                        } else {
-                //                            Text(currentPrice.formattedString)
-                //                                .foregroundColor(.white)
-                //                                .font(.title)
-                //                                .bold()
-                //                        }
-                //
-                //                        let priceChange = currentPrice - previousPrice
-                //                        let percentagePriceChg = (priceChange / previousPrice ) * 100
-                //                        let percentagePriceChgStr = String(format: "(%.1f%%)", percentagePriceChg)
-                //                        let changeColor: Color = priceChange >= 0 ? Color.green : Color.red
-                //                        let changeSign: String = priceChange >= 0 ? "+" : ""
-                //                        let firstText = "\(changeSign)\(priceChange.formattedString) \(percentagePriceChgStr)"
-                //
-                //                        HStack(
-                //                            alignment: .center,
-                //                            spacing: 4,
-                //                            content: {
-                //                                Text(firstText)
-                //                                    .foregroundColor(changeColor)
-                //                                    .font(.subheadline)
-                //                                    .bold()
-                //                                if selectedValue == nil {
-                //                                    Text(currentTimePeriod.priceChangeText)
-                //                                        .foregroundColor(.white)
-                //                                        .font(.subheadline)
-                //                                        .bold()
-                //                                }
-                //                            }
-                //                        )
-                //                    }
-                //                )
-                //                .padding(.top, 12)
-                //                .padding(.bottom, 12)
-                //                .padding(.leading, 20)
-                //                .frame(alignment: .leading)
-                //                .frame(maxWidth: .infinity, alignment: .leading)
-                
                 VStack(alignment: .leading) {
                     if ((self.title != nil) || (self.legend != nil) || (self.displayChartStats)) {
                         VStack(alignment: .leading, spacing: 20){
@@ -228,7 +177,7 @@ struct LineChartView: View {
                                         if (self.internalRate != nil) {
                                             Text(self.currentValue.formattedCurrencyString)
                                         } else {
-                                            Text(self.currentValue.formattedCurrencyString))
+                                            Text(self.currentValue.formattedCurrencyString)
                                         }
                                     } else if (self.rawData.last != nil) {
                                         if (self.internalRate != nil) {
@@ -290,7 +239,6 @@ struct LineChartView: View {
                             .font(self.priceFont)
                         }
                         .transition(.opacity)
-                        .animation(.easeIn(duration: 0.1))
                         .padding([.leading, .top])
                         .padding(.top, self.topPadding)
                     }
