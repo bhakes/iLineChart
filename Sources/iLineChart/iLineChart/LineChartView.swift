@@ -181,9 +181,9 @@ struct LineChartView: View {
                                         }
                                     } else if (self.rawData.last != nil) {
                                         if (self.internalRate != nil) {
-                                            Text("\(String(format: self.valueSpecifier, self.rawData.last!))")
+                                            Text(self.rawData.last!.formattedCurrencyString)
                                         } else {
-                                            Text("\(String(format: self.valueSpecifier, self.rawData.last!))")
+                                            Text(self.rawData.last!.formattedCurrencyString)
                                         }
                                     } else if (self.internalRate != nil) {
                                         Text("(\(self.internalRate!)%)")
@@ -267,13 +267,13 @@ struct LineChartView: View {
                                 .offset(x: minimumPoint.x,
                                         y: minimumPoint.y)
                                 .foregroundColor(Color.white)
-                                .font(.bold(.title3)())
+                                .font(self.priceFont)
                             
                             Text("\(self.maximumValue.formattedCurrencyString)")
                                 .offset(x: maximumPoint.x,
                                         y: maximumPoint.y)
                                 .foregroundColor(Color.white)
-                                .font(.bold(.title3)())
+                                .font(self.priceFont)
                         }
                     }
                     .frame(minWidth: self.minWidth, maxWidth: self.maxWidth, minHeight: self.minHeight, maxHeight: self.maxHeight)
