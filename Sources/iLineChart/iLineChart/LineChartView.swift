@@ -226,9 +226,9 @@ struct LineChartView: View {
                                 if ((self.displayChartStats)) {
                                     if (self.showIndicatorDot) {
                                         if (self.internalRate != nil) {
-                                            Text("\(String(format: self.valueSpecifier, self.currentValue.formattedCurrencyString))")
+                                            Text(self.currentValue.formattedCurrencyString)
                                         } else {
-                                            Text("\(String(format: self.valueSpecifier, self.currentValue.formattedCurrencyString))")
+                                            Text(self.currentValue.formattedCurrencyString))
                                         }
                                     } else if (self.rawData.last != nil) {
                                         if (self.internalRate != nil) {
@@ -263,7 +263,7 @@ struct LineChartView: View {
                                                self.rawData.first != nil) {
                                         if (self.internalRate != nil) {
                                             HStack {
-                                                Text("\(self.rawData.last! - self.rawData.first!)) (\(self.internalRate!)%)")
+                                                Text("\((self.rawData.last! - self.rawData.first!).formattedCurrencyString) (\(self.internalRate!)%)")
                                                     .font(self.priceFont)
                                                     .foregroundColor(self.priceColor)
                                                 Text("\(self.timePeriodText)")
@@ -272,7 +272,7 @@ struct LineChartView: View {
                                             }
                                         } else {
                                             HStack {
-                                                Text("\(self.rawData.last! - self.rawData.first!))  \(self.timePeriodText)")
+                                                Text("\((self.rawData.last! - self.rawData.first!).formattedCurrencyString) \(self.timePeriodText)")
                                                     .font(self.priceFont)
                                                     .foregroundColor(self.priceColor)
                                                 Text("\(self.timePeriodText)")
