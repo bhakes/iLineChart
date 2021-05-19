@@ -260,7 +260,7 @@ struct LineChartView: View {
                         if showHighAndLowValues {
                             let minimumPoint = self.getMinimumDataPoint(width: geometry.frame(in: .local).size.width - 24,
                                                                         height: geometry.frame(in: .local).size.height)
-                            let maximumPoint = self.getMaximumDataPoint(width: geometry.frame(in: .local).size.width - 32,
+                            let maximumPoint = self.getMaximumDataPoint(width: geometry.frame(in: .local).size.width - 24,
                                                                         height: 0)
                             Text("\(self.minimumValue.formattedCurrencyString)")
                                 .offset(x: minimumPoint.x,
@@ -336,8 +336,8 @@ struct LineChartView: View {
         let stepWidth: CGFloat = width / CGFloat(points.count - 1)
         
         let minX: CGFloat = {
-            if CGFloat(indexOfMinPoint)*stepWidth <= 40 {
-                return 40
+            if CGFloat(indexOfMinPoint)*stepWidth <= 10 {
+                return 10
             } else if CGFloat(indexOfMinPoint)*stepWidth >= (width - 40) {
                 return (width - 40)
             }
@@ -362,8 +362,8 @@ struct LineChartView: View {
         let stepWidth: CGFloat = width / CGFloat(points.count - 1)
         
         let maxX: CGFloat = {
-            if CGFloat(indexOfMaxPoint)*stepWidth <= 40 {
-                return 40
+            if CGFloat(indexOfMaxPoint)*stepWidth <= 10 {
+                return 10
             } else if CGFloat(indexOfMaxPoint)*stepWidth >= (width - 40) {
                 return (width - 40)
             }
