@@ -57,7 +57,7 @@ struct LineChartView: View {
     private var rateValue: Int?
     
     private var changeInValue: Double {
-        guard let firstValue = data.onlyPoints().first else {
+        guard let firstValue = self.rawData.first else {
             return 0.0
         }
         return currentValue - firstValue
