@@ -52,19 +52,30 @@ struct LineChartView: View {
                 HapticFeedback.playSelection()
                 firstTap = false
             }
-            
-            let firstValue = self.rawData.first ?? 0.0
-            let changeInValue = (currentValue - firstValue)
-            let priceColor: Color = changeInValue >= 0 ? .green : .red
-            self.changeInValue = changeInValue
-            self.priceColor = priceColor
         }
     }
-    @State private var changeInValue: Double = 0.0
-    @State private var priceColor: Color = .green
     
     var frame = CGSize(width: 180, height: 120)
     private var rateValue: Int?
+    
+    private var changeInValue: Double {
+        guard let firstValue = self.rawData.first else {
+            return 0.0
+        }
+        if showIndicatorDot {
+            return currentValue - firstValue
+        } else {
+            return headlinePrice - firstValue
+        }
+    }
+    
+    var priceColor: Color {
+        if changeInValue >= 0 {
+            return Color.green
+        } else {
+            return Color.red
+        }
+    }
     
     private var minimumValue: Double {
         return self.data.onlyPoints().min() ?? 0
