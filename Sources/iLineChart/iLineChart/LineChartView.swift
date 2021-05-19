@@ -336,10 +336,10 @@ struct LineChartView: View {
         let stepWidth: CGFloat = width / CGFloat(points.count - 1)
         
         let minX: CGFloat = {
-            if CGFloat(indexOfMinPoint)*stepWidth <= 60 {
-                return 60
-            } else if CGFloat(indexOfMinPoint)*stepWidth >= (width - 60) {
-                return (width - 60)
+            if CGFloat(indexOfMinPoint)*stepWidth <= 40 {
+                return 40
+            } else if CGFloat(indexOfMinPoint)*stepWidth >= (width - 40) {
+                return (width - 40)
             }
             return CGFloat(indexOfMinPoint)*stepWidth
         }()
@@ -362,10 +362,10 @@ struct LineChartView: View {
         let stepWidth: CGFloat = width / CGFloat(points.count - 1)
         
         let maxX: CGFloat = {
-            if CGFloat(indexOfMaxPoint)*stepWidth <= 60 {
-                return 60
-            } else if CGFloat(indexOfMaxPoint)*stepWidth >= (width - 60) {
-                return (width - 60)
+            if CGFloat(indexOfMaxPoint)*stepWidth <= 40 {
+                return 40
+            } else if CGFloat(indexOfMaxPoint)*stepWidth >= (width - 40) {
+                return (width - 40)
             }
             return CGFloat(indexOfMaxPoint)*stepWidth
         }()
