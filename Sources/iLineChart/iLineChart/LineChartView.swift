@@ -12,6 +12,7 @@ import iColor
 struct LineChartView: View {
     @Environment(\.colorScheme) var colorScheme: ColorScheme
     @ObservedObject var data: ChartData
+    public var headlinePrice: Double
     public var title: String?
     public var legend: String?
     public var timePeriodText: String
@@ -79,6 +80,7 @@ struct LineChartView: View {
     }
     
     init(data: [Double],
+         headlinePrice: Double,
          title: String? = nil,
          legend: String? = nil,
          style: ChartStyle = Styles.lineChartStyleOne,
@@ -103,6 +105,7 @@ struct LineChartView: View {
         
         self.rawData = data
         self.data = ChartData(points: data)
+        self.headlinePrice = headlinePrice
         self.title = title
         self.legend = legend
         self.style = style
@@ -139,7 +142,7 @@ struct LineChartView: View {
         
         if !self.showIndicatorDot {
             if self.rawData.count > 1 {
-                return Int(((self.rawData.last!/self.rawData.first!) - 1) * 100)
+                return Int(((self.headlinePrice/self.rawData.first!) - 1) * 100)
             } else {
                 return nil
             }
@@ -181,9 +184,9 @@ struct LineChartView: View {
                                         }
                                     } else if (self.rawData.last != nil) {
                                         if (self.internalRate != nil) {
-                                            Text(self.rawData.last!.formattedCurrencyString)
+                                            Text(self.headlinePrice.formattedCurrencyString)
                                         } else {
-                                            Text(self.rawData.last!.formattedCurrencyString)
+                                            Text(self.headlinePrice.formattedCurrencyString)
                                         }
                                     } else if (self.internalRate != nil) {
                                         Text("(\(self.internalRate!)%)")
@@ -212,7 +215,7 @@ struct LineChartView: View {
                                                self.rawData.first != nil) {
                                         if (self.internalRate != nil) {
                                             HStack {
-                                                Text("\((self.rawData.last! - self.rawData.first!).formattedCurrencyString) (\(self.internalRate!)%)")
+                                                Text("\((self.headlinePrice - self.rawData.first!).formattedCurrencyString) (\(self.internalRate!)%)")
                                                     .font(self.priceFont)
                                                     .foregroundColor(self.priceColor)
                                                 Text("\(self.timePeriodText)")
@@ -221,7 +224,7 @@ struct LineChartView: View {
                                             }
                                         } else {
                                             HStack {
-                                                Text("\((self.rawData.last! - self.rawData.first!).formattedCurrencyString) \(self.timePeriodText)")
+                                                Text("\((self.headlinePrice - self.rawData.first!).formattedCurrencyString) \(self.timePeriodText)")
                                                     .font(self.priceFont)
                                                     .foregroundColor(self.priceColor)
                                                 Text("\(self.timePeriodText)")
@@ -382,7 +385,7 @@ struct LineChartView: View {
 struct WidgetView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            LineChartView(data: [8,23,54,32,12,37,7,23,43], title: "Line chart", legend: "Basic")
+            LineChartView(data: [8,23,54,32,12,37,7,23,43], headlinePrice: 3, title: "Line chart", legend: "Basic")
                 .environment(\.colorScheme, .light)
         }
     }

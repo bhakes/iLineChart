@@ -10,6 +10,7 @@ import iColor
 
 public struct iLineChart: View {
     public var data: [Double]
+    public var headlinePrice: Double
     public var title: String?
     public var subtitle: String?
     public var timePeriodText: String
@@ -37,6 +38,7 @@ public struct iLineChart: View {
     
     
     public init (data: [Double],
+                 headlinePrice: Double,
                  title: String? = nil,
                  subtitle: String? = nil,
                  style: LineChartStyle? = nil,
@@ -65,6 +67,7 @@ public struct iLineChart: View {
         
         
         self.data = data
+        self.headlinePrice = headlinePrice
         self.title = title
         self.subtitle = subtitle
         self.timePeriodText = timePeriodText
@@ -116,6 +119,7 @@ public struct iLineChart: View {
     
     public var body: some View {
         LineChartView(data: self.data,
+                      headlinePrice: self.headlinePrice,
                       title: self.title,
                       legend: self.subtitle,
                       style: self.chartStyle,
