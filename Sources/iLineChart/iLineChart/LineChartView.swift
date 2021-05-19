@@ -45,10 +45,12 @@ struct LineChartView: View {
     @State private var maximumPoint: CGPoint?
     @State private var touchLocation:CGPoint = .zero
     @State private var showIndicatorDot: Bool = false
+    @State private var firstTap: Bool = true
     @State private var currentValue: Double = 2 {
         didSet{
-            if (oldValue != self.currentValue && !showIndicatorDot) {
+            if (oldValue != self.currentValue && showIndicatorDot && firstTap) {
                 HapticFeedback.playSelection()
+                firstTap = false
             }
         }
     }
@@ -168,9 +170,15 @@ struct LineChartView: View {
                     if ((self.title != nil) || (self.legend != nil) || (self.displayChartStats)) {
                         VStack(alignment: .leading, spacing: 20){
                             if (self.title != nil) {
-                                Text(self.title!)
-                                    .font(self.titleFont)
-                                    .foregroundColor(self.colorScheme == .dark ? self.darkModeStyle.textColor : self.style.textColor)
+                                if ((self.displayChartStats)) {
+                                    if (self.showIndicatorDot) {
+                                        Text("Show date here")
+                                    } else {
+                                        Text(self.title!)
+                                            .font(self.titleFont)
+                                            .foregroundColor(self.colorScheme == .dark ? self.darkModeStyle.textColor : self.style.textColor)
+                                    }
+                                }
                             }
                             
                             // Current Value
@@ -308,6 +316,8 @@ struct LineChartView: View {
                         .onEnded({ value in
                             self.showIndicatorDot = false
                             self.showHighAndLowValues = true
+                            self.firstTap = true
+                            HapticFeedback.playSelection()
                         })
                      // MARK: Frames
                      
