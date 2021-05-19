@@ -7,7 +7,6 @@
 //
 
 import SwiftUI
-import iColor
 
 public struct Line: View {
     @ObservedObject var data: ChartData
@@ -18,9 +17,9 @@ public struct Line: View {
     @Binding var maxDataValue: Double?
     @State private var showFull: Bool = false
     @State var showBackground: Bool = true
-    var lineGradient: GradientColor = GradientColor(start: Color.neonPurple, end: Color.neonOceanBlue)
-    var backgroundGradient: GradientColor = GradientColor(start: Color.neonBlue, end: .white)
-    var indicatorKnob: Color = Color.neonPink
+    var lineGradient: GradientColor = GradientColor(start: Color.blue, end: Color.blue)
+    var backgroundGradient: GradientColor = GradientColor(start: Color.blue, end: .white)
+    var indicatorKnob: Color = Color.orange
     var index:Int = 0
     let padding:CGFloat = 30
     var curvedLines: Bool = true

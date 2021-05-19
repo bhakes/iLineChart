@@ -7,7 +7,6 @@
 //
 
 import SwiftUI
-import iColor
 
 struct LineChartView: View {
     @Environment(\.colorScheme) var colorScheme: ColorScheme
@@ -97,7 +96,7 @@ struct LineChartView: View {
          rateValue: Int? = 14,
          dropShadow: Bool? = false,
          valueSpecifier: String? = "%.1f",
-         cursorColor: Color = Color.neonPink,
+         cursorColor: Color = Color.purple,
          curvedLines: Bool = true,
          displayChartStats: Bool = true,
          minWidth: CGFloat = 0,

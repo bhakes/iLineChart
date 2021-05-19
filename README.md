@@ -61,14 +61,12 @@ struct ContentView: View {
 <img src="https://iswiftui.com/assets/img/demo3.gif" width="300">
 
 <h3> Example 3</h2>
-Change the cursor color with the built in iColor library.
 Enable fullscreen to cover the safe areas with your background color.
 Change the font to your company's brand.
 
 ```swift
 import SwiftUI
 import iLineChart
-import iColor
 
 struct ContentView: View {
     var data:[Double] = ExampleData.stockData
@@ -79,7 +77,7 @@ struct ContentView: View {
             title: "My Dark Themed App",
             subtitle: "Sleek. Simple.",
             style: .dark,
-            titleColor: Color.neonRed,
+            titleColor: Color.red,
             cursorColor: .black,
             titleFont: .system(size: 14, weight: .regular, design: .monospaced),
             subtitleFont: .system(size: 24, weight: .bold, design: .monospaced),

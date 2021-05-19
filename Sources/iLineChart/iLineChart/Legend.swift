@@ -7,7 +7,6 @@
 //
 
 import SwiftUI
-import iColor
 
 struct Legend: View {
     @ObservedObject var data: ChartData
@@ -47,7 +46,7 @@ struct Legend: View {
                         .foregroundColor(Color.gray)
                         .font(.caption)
                     self.line(atHeight: self.getYLegendSafe(height: height), width: self.frame.width)
-                        .stroke(self.colorScheme == .dark ? Color.darkGray : Color.gray, style: StrokeStyle(lineWidth: 1.5, lineCap: .round, dash: [5,height == 0 ? 0 : 10]))
+                        .stroke(self.colorScheme == .dark ? Color.gray : Color.gray, style: StrokeStyle(lineWidth: 1.5, lineCap: .round, dash: [5,height == 0 ? 0 : 10]))
                         .opacity((self.hideHorizontalLines && height != 0) ? 0 : 1)
                         .rotationEffect(.degrees(180), anchor: .center)
                         .rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0))
