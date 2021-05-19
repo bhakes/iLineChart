@@ -173,10 +173,12 @@ struct LineChartView: View {
                                 if ((self.displayChartStats)) {
                                     if (self.showIndicatorDot) {
                                         Text("Show date here")
+                                            .font(self.titleFont)
+                                            .foregroundColor(self.style.textColor)
                                     } else {
                                         Text(self.title!)
                                             .font(self.titleFont)
-                                            .foregroundColor(self.colorScheme == .dark ? self.darkModeStyle.textColor : self.style.textColor)
+                                            .foregroundColor(self.style.textColor)
                                     }
                                 }
                             }
