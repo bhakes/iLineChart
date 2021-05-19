@@ -47,8 +47,8 @@ struct LineChartView: View {
     @State private var showIndicatorDot: Bool = false
     @State private var currentValue: Double = 2 {
         didSet{
-            if (oldValue != self.currentValue && showIndicatorDot) {
-//                HapticFeedback.playSelection()
+            if (oldValue != self.currentValue && !showIndicatorDot) {
+                HapticFeedback.playSelection()
             }
         }
     }
