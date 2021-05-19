@@ -9,7 +9,7 @@ import SwiftUI
 import iColor
 
 public struct iLineChart: View {
-    public var data: [Double]
+    public var data: [(date: Date, data: Double)]
     public var headlinePrice: Double
     public var title: String?
     public var subtitle: String?
@@ -37,7 +37,7 @@ public struct iLineChart: View {
     }
     
     
-    public init (data: [Double],
+    public init (data: [(date: Date, data: Double)],
                  headlinePrice: Double,
                  title: String? = nil,
                  subtitle: String? = nil,

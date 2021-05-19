@@ -21,6 +21,7 @@ struct LineChartView: View {
     var indicatorKnob: Color
     
     private var rawData: [Double]
+    private var rawDates: [Date]
     public var formSize:CGSize
     public var dropShadow: Bool
     public var valueSpecifier:String
@@ -55,6 +56,8 @@ struct LineChartView: View {
         }
     }
     
+    @State private var currentDate: Date?
+    
     var frame = CGSize(width: 180, height: 120)
     private var rateValue: Int?
     
@@ -85,7 +88,7 @@ struct LineChartView: View {
         return self.data.onlyPoints().max() ?? 0
     }
     
-    init(data: [Double],
+    init(data: [(date: Date, data: Double)],
          headlinePrice: Double,
          title: String? = nil,
          legend: String? = nil,
@@ -109,8 +112,9 @@ struct LineChartView: View {
          timePeriodText: String = ""
     ) {
         
-        self.rawData = data
-        self.data = ChartData(points: data)
+        self.rawData = data.map { $0.data }
+        self.rawDates = data.map { $0.date }
+        self.data = ChartData(points: data.map { $0.data })
         self.headlinePrice = headlinePrice
         self.title = title
         self.legend = legend
@@ -176,7 +180,7 @@ struct LineChartView: View {
                             if (self.title != nil) {
                                 if ((self.displayChartStats)) {
                                     if (self.showIndicatorDot) {
-                                        Text("Show date here")
+                                        Text(self.currentDate?.formattedDateTime ?? "Date")
                                             .font(self.titleFont)
                                             .foregroundColor(self.style.textColor)
                                     } else {
@@ -323,6 +327,7 @@ struct LineChartView: View {
                             self.showIndicatorDot = false
                             self.showHighAndLowValues = true
                             self.firstTap = true
+                            self.currentDate = nil
                             HapticFeedback.playSelection()
                         })
                      // MARK: Frames
@@ -339,6 +344,7 @@ struct LineChartView: View {
         let index:Int = Int(round((toPoint.x)/stepWidth))
         if (index >= 0 && index < points.count){
             self.currentValue = points[index]
+            self.currentDate = rawDates[index]
             return CGPoint(x: CGFloat(index)*stepWidth, y: CGFloat(points[index])*stepHeight)
         }
         return .zero
@@ -398,11 +404,11 @@ struct LineChartView: View {
     
 }
 
-struct WidgetView_Previews: PreviewProvider {
-    static var previews: some View {
-        Group {
-            LineChartView(data: [8,23,54,32,12,37,7,23,43], headlinePrice: 3, title: "Line chart", legend: "Basic")
-                .environment(\.colorScheme, .light)
-        }
-    }
-}
+//struct WidgetView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        Group {
+//            LineChartView(data: [8,23,54,32,12,37,7,23,43], headlinePrice: 3, title: "Line chart", legend: "Basic")
+//                .environment(\.colorScheme, .light)
+//        }
+//    }
+//}
