@@ -258,11 +258,10 @@ struct LineChartView: View {
                         )
                         
                         if showHighAndLowValues {
-                            let minimumPoint = self.getMinimumDataPoint(width: geometry.frame(in: .local).size.width - 20,
+                            let minimumPoint = self.getMinimumDataPoint(width: geometry.frame(in: .local).size.width - 24,
                                                                         height: geometry.frame(in: .local).size.height)
-                            let maximumPoint = self.getMaximumDataPoint(width: geometry.frame(in: .local).size.width - 40,
+                            let maximumPoint = self.getMaximumDataPoint(width: geometry.frame(in: .local).size.width - 32,
                                                                         height: 0)
-                            
                             Text("\(self.minimumValue.formattedCurrencyString)")
                                 .offset(x: minimumPoint.x,
                                         y: minimumPoint.y)
@@ -288,7 +287,8 @@ struct LineChartView: View {
                     
                 }
                 .background(self.style.backgroundColor)
-                .frame(width: (self.maxWidth == .infinity ? g.size.width : self.maxWidth), height: (self.maxHeight == .infinity ? g.size.height : self.maxHeight))
+                .frame(width: (self.maxWidth == .infinity ? g.size.width : self.maxWidth),
+                       height: (self.maxHeight == .infinity ? g.size.height : self.maxHeight))
                 
                 
             }
@@ -335,8 +335,15 @@ struct LineChartView: View {
         
         let stepWidth: CGFloat = width / CGFloat(points.count-1)
         
+        let minX: CGFloat = {
+            if CGFloat(indexOfMinPoint)*stepWidth <= 60 {
+                return 60
+            }
+            return CGFloat(indexOfMinPoint)*stepWidth
+        }()
+        
         if (indexOfMinPoint >= 0 && indexOfMinPoint < points.count){
-            return CGPoint(x: CGFloat(indexOfMinPoint)*stepWidth,
+            return CGPoint(x: minX,
                            y: height)
         }
         return .zero
