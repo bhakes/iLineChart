@@ -333,11 +333,13 @@ struct LineChartView: View {
             return .zero
         }
         
-        let stepWidth: CGFloat = width / CGFloat(points.count-1)
+        let stepWidth: CGFloat = width / CGFloat(points.count - 1)
         
         let minX: CGFloat = {
             if CGFloat(indexOfMinPoint)*stepWidth <= 60 {
                 return 60
+            } else if CGFloat(indexOfMinPoint)*stepWidth >= (width - 60) {
+                return (width - 60)
             }
             return CGFloat(indexOfMinPoint)*stepWidth
         }()
@@ -349,7 +351,7 @@ struct LineChartView: View {
         return .zero
     }
     
-    func getMaximumDataPoint(width: CGFloat,
+    func getMaximumDataPoint(width:CGFloat,
                              height: CGFloat) -> CGPoint {
         let points = self.data.onlyPoints()
         let pointsEnumerated = points.enumerated()
@@ -360,12 +362,14 @@ struct LineChartView: View {
         let stepWidth: CGFloat = width / CGFloat(points.count - 1)
         
         let maxX: CGFloat = {
-            if CGFloat(indexOfMaxPoint)*stepWidth <= (width - 60) {
+            if CGFloat(indexOfMaxPoint)*stepWidth <= 60 {
+                return 60
+            } else if CGFloat(indexOfMaxPoint)*stepWidth >= (width - 60) {
                 return (width - 60)
             }
             return CGFloat(indexOfMaxPoint)*stepWidth
         }()
-                
+        
         if (indexOfMaxPoint >= 0 && indexOfMaxPoint < points.count){
             return CGPoint(x: maxX,
                            y: 0)
