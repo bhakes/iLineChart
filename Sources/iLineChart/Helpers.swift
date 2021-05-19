@@ -355,19 +355,13 @@ extension Date {
     
     var formattedDateTime: String {
         let formatter = DateFormatter()
-        formatter.dateFormat = "d MMM y, HH:mm"
+        formatter.dateFormat = "dd MMM y, HH:mm"
         let dateTimeString = formatter.string(from: self)
         if dateTimeString.hasSuffix(", 00:00") {
-            formatter.dateFormat = "d MMM y"
+            formatter.dateFormat = "dd MMM y"
             return formatter.string(from: self)
         }
         return dateTimeString
-    }
-    
-    var formattedDate: String {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "d MMM y"
-        return formatter.string(from: self)
     }
     
 }
